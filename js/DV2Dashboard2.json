@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "vconcat": [
+  "hconcat": [
     {
     "title": {
       "text": "Malaysia GDP Growth (2019–2024)",
