@@ -1,60 +1,124 @@
-
-  {
+{
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 
   "vconcat": [
     {
-    "title": {
-      "text": "Domestic vs Foreigner Tourist Arrivals by State (2024)",
-      "font": "Times New Roman",
-      "fontSize": 16,
-      "anchor": "middle"
-    },
-    "data": {
-      "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/HotelGuestByState.csv"
-    },
-    "transform": [
-      {"calculate": "-toNumber(datum['Domestic 2024'])", "as": "DomesticNeg"},
-      {
-        "fold": ["DomesticNeg", "Foreigner 2024"],
-        "as": ["Category", "Value"]
+      "title": {
+        "text": "Domestic vs Foreigner Tourist Arrivals by State (2024)",
+        "font": "Times New Roman",
+        "fontSize": 16,
+        "anchor": "middle"
       },
-      {
-        "calculate": "datum.Category == 'DomesticNeg' ? 'Domestic Tourists' : 'Foreigner Tourists'",
-        "as": "TouristType"
-      }
-    ],
-    "width": 1000,
-    "height": 650,
-    "encoding": {
-      "y": {
-        "field": "Country/Region",
-        "type": "nominal",
-        "axis": {"title": "State / Region", "offset": 5, "labelLimit": 120}
+      "data": {
+        "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/HotelGuestByState.csv"
       },
-      "x": {
-        "field": "Value",
-        "type": "quantitative",
-        "axis": {
-          "title": "Number of Tourists (2024)",
-          "format": ",",
-          "grid": false,
-          "labelExpr": "datum.value < 0 ? -datum.value : datum.value"
+      "transform": [
+        {"calculate": "-toNumber(datum['Domestic 2024'])", "as": "DomesticNeg"},
+        {
+          "fold": ["DomesticNeg", "Foreigner 2024"],
+          "as": ["Category", "Value"]
+        },
+        {
+          "calculate": "datum.Category == 'DomesticNeg' ? 'Domestic Tourists' : 'Foreigner Tourists'",
+          "as": "TouristType"
         }
+      ],
+      "width": 800,
+      "height": 650,
+      "encoding": {
+        "y": {
+          "field": "Country/Region",
+          "type": "nominal",
+          "axis": {"title": "State / Region", "offset": 5, "labelLimit": 120}
+        },
+        "x": {
+          "field": "Value",
+          "type": "quantitative",
+          "axis": {
+            "title": "Number of Tourists (2024)",
+            "format": ",",
+            "grid": false,
+            "labelExpr": "datum.value < 0 ? -datum.value : datum.value"
+          }
+        },
+        "color": {
+          "field": "TouristType",
+          "type": "nominal",
+          "scale": {"domain": ["Domestic Tourists", "Foreigner Tourists"], "range": ["#0d9cff", "#ed0000"]},
+          "legend": {"title": "Type of Tourist"}
+        },
+        "tooltip": [
+          {"field": "Country/Region", "type": "nominal", "title": "Region"},
+          {"field": "TouristType", "type": "nominal"},
+          {"field": "Value", "type": "quantitative", "format": ","}
+        ]
       },
-      "color": {
-        "field": "TouristType",
-        "type": "nominal",
-        "scale": {"domain": ["Domestic Tourists", "Foreigner Tourists"], "range": ["#0d9cff", "#ed0000"]},
-        "legend": {"title": "Type of Tourist"}
-      },
-      "tooltip": [
-        {"field": "Country/Region", "type": "nominal", "title": "Region"},
-        {"field": "TouristType", "type": "nominal"},
-        {"field": "Value", "type": "quantitative", "format": ","}
-      ]
+      "mark": {"type": "bar"}
     },
-    "mark": {"type": "bar"}
-  }
-]
+
+    {
+      "title": {
+        "text": "Average Hotel Room Capacity by State and Year",
+        "font": "Times New Roman",
+        "fontSize": 16,
+        "anchor": "middle"
+      },
+      "data": {
+        "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/HotelRooms.csv"
+      },
+      "transform": [
+        {
+          "calculate": "toNumber(datum['2020 Room'])/toNumber(datum['2020 Hotel'])",
+          "as": "2020"
+        },
+        {
+          "calculate": "toNumber(datum['2021 Room'])/toNumber(datum['2021 Hotel'])",
+          "as": "2021"
+        },
+        {
+          "calculate": "toNumber(datum['2022 Room'])/toNumber(datum['2022 Hotel'])",
+          "as": "2022"
+        },
+        {
+          "calculate": "toNumber(datum['2023 Room'])/toNumber(datum['2023 Hotel'])",
+          "as": "2023"
+        },
+        {
+          "calculate": "toNumber(datum['2024 Room'])/toNumber(datum['2024 Hotel'])",
+          "as": "2024"
+        },
+        {
+          "fold": ["2020", "2021", "2022", "2023", "2024"],
+          "as": ["Year", "AvgRooms"]
+        }
+      ],
+      "width": 800,
+      "height": 400,
+      "mark": "rect",
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "ordinal",
+          "title": "Year"
+        },
+        "y": {
+          "field": "State",
+          "type": "nominal",
+          "title": "State / Region",
+          "sort": "-x"
+        },
+        "color": {
+          "field": "AvgRooms",
+          "type": "quantitative",
+          "title": "Average Rooms per Hotel",
+          "scale": {"scheme": "blues"}
+        },
+        "tooltip": [
+          {"field": "State", "title": "State"},
+          {"field": "Year", "title": "Year"},
+          {"field": "AvgRooms", "title": "Avg. Rooms/Hotel", "format": ".1f"}
+        ]
+      }
+    }
+  ]
 }
