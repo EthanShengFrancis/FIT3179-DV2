@@ -41,7 +41,7 @@
               "lookup": "properties.NAME",
               "from": {
                 "data": {
-                  "url": "https://raw.githubusercontent.com/EthanShengFrancis/Homework-Week-10/main/data/FIT3179%20DV2%20Map.csv"
+                  "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/FIT3179%20DV2%20Map.csv"
                 },
                 "key": "Country",
                 "fields": ["2019", "2022", "2023", "2024"]
@@ -109,6 +109,19 @@
           "mark": {"type": "circle", "size": 40, "color": "red"}
         }
       ]
+    }
+  ],
+  "params": [
+    {
+      "name": "Year_selection",
+      "value": 2024,
+      "bind": {
+        "input": "range",
+        "min": 2019,
+        "max": 2024,
+        "step": 1,
+        "name": "Map Year for Choropleth Map: "
+      }
     }
   ]
 }
