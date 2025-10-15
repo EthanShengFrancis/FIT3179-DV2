@@ -111,7 +111,7 @@
           "field": "AvgRooms",
           "type": "quantitative",
           "title": "Average Rooms per Hotel",
-          "scale": {"scheme": "blues"}
+          "scale": {"type": "pow", "exponent": 0.5, "scheme": "blues"}
         },
         "tooltip": [
           {"field": "State", "title": "State"},
