@@ -30,12 +30,19 @@
         <div id="line_chart" class="vis-container"></div>
       </div>
     </div>
-
-  </div>
+      <div class="pure-u-1-1">
+        <div class="description">
+          <h2>Domestic vs Foreigner Tourist Arrivals by State (2024)</h2>
+          <p>This bar chart compares the number of domestic and foreign tourist arrivals in various states of Malaysia for the year 2024.</p>
+        </div>
+        <div id="hotel_analytics" class="vis-container"></div>
+      </div>
+    </div>
 
   <script type="text/javascript">
     var spec1 = "js/DV2Dashboard.vg.json";
     var spec2 = "js/DV2Dashboard2.vg.json";
+    var spec3 = "js/DV2Dashboard3.vg.json";
 
     // Embed choropleth
     vegaEmbed('#choropleth_map', spec1, { "actions": false })
@@ -44,6 +51,10 @@
 
     // Embed line chart
     vegaEmbed('#line_chart', spec2, { "actions": false })
+      .then(function(result) {})
+      .catch(console.error);
+
+    vegaEmbed('#hotel_analytics', spec3, { "actions": false })
       .then(function(result) {})
       .catch(console.error);
   </script>

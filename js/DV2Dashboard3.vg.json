@@ -1,0 +1,60 @@
+
+  {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "vconcat": [
+    {
+    "title": {
+      "text": "Domestic vs Foreigner Tourist Arrivals by State (2024)",
+      "font": "Times New Roman",
+      "fontSize": 16,
+      "anchor": "middle"
+    },
+    "data": {
+      "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/HotelGuestByState.csv"
+    },
+    "transform": [
+      {"calculate": "-toNumber(datum['Domestic 2024'])", "as": "DomesticNeg"},
+      {
+        "fold": ["DomesticNeg", "Foreigner 2024"],
+        "as": ["Category", "Value"]
+      },
+      {
+        "calculate": "datum.Category == 'DomesticNeg' ? 'Domestic Tourists' : 'Foreigner Tourists'",
+        "as": "TouristType"
+      }
+    ],
+    "width": 800,
+    "height": 450,
+    "encoding": {
+      "y": {
+        "field": "Country/Region",
+        "type": "nominal",
+        "axis": {"title": "State / Region", "offset": 5, "labelLimit": 120}
+      },
+      "x": {
+        "field": "Value",
+        "type": "quantitative",
+        "axis": {
+          "title": "Number of Tourists (2024)",
+          "format": ",",
+          "grid": false,
+          "labelExpr": "datum.value < 0 ? -datum.value : datum.value"
+        }
+      },
+      "color": {
+        "field": "TouristType",
+        "type": "nominal",
+        "scale": {"domain": ["Domestic Tourists", "Foreigner Tourists"], "range": ["#1f77b4", "#ff7f0e"]},
+        "legend": {"title": "Type of Tourist"}
+      },
+      "tooltip": [
+        {"field": "Country/Region", "type": "nominal", "title": "Region"},
+        {"field": "TouristType", "type": "nominal"},
+        {"field": "Value", "type": "quantitative", "format": ","}
+      ]
+    },
+    "mark": {"type": "bar"}
+  }
+]
+}
