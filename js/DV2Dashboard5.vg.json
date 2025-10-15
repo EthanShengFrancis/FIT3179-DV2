@@ -1,6 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Monthly visitor arrivals by selected years",
+    "title": {
+    "text": "Monthly Tourist Arrivals to Malaysia (2019-2024)",
+    "font": "Arial",
+    "fontSize": 16,
+    "anchor": "middle"
+  },
   "width": 700,
   "height": 400,
   "data": {
