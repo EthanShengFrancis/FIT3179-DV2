@@ -1,64 +1,66 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "6 Highest Countries' Tourist Arrivals Between 2019–2024",
+  "width": 800,
+  "height": 420,
+  "data": {
+    "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/FIT3179%20DV2%20Map.csv"
+  },
+  "transform": [
     {
-      "title": "Highest Countries' tourist arrivals between 2019, 2022, 2023 or 2024.",
-      "width": 800,
-      "height": 420,
-      "data": {
-            "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/FIT3179%20DV2%20Map.csv"  
-      },
-      "transform": [
-        {
-          "fold": [
-            "Rank_2019",
-            "Rank_2022",
-            "Rank_2023",
-            "Rank_2024"
-          ],
-          "as": ["Year", "Rank"]
-        },
-        {
-          "calculate": "replace(datum.Year, 'Rank_', '')",
-          "as": "YearClean"
-        },
-        {
-          "calculate": "toNumber(datum.YearClean)",
-          "as": "YearNum"
-        },
-        {"filter": "datum.Rank_2024 <= 6 "}
+      "filter": "datum.Rank_2024 <= 6"
+    },
+    {
+      "fold": [
+        "Rank_2019",
+        "Rank_2022",
+        "Rank_2023",
+        "Rank_2024"
       ],
-      "mark": {
-        "type": "line",
-        "point": true
-      },
-      "encoding": {
-        "x": {
-          "field": "YearNum",
-          "type": "ordinal",
-          "title": "Year"
-        },
-        "y": {
-          "field": "Rank",
-          "type": "quantitative",
-          "sort": "descending",
-          "title": "Rank (1 = Highest)",
-          "scale": {"reverse": true}
-        },
-        "color": {
-          "field": "Country",
-          "type": "nominal",
-          "legend": {"title": "Country"}
-        },
-        "tooltip": [
-          {"field": "Country", "type": "nominal"},
-          {"field": "Rank", "title": "Rank"},
-          {"field": "2019", "type": "quantitative", "title": "Arrivals 2019"},
-          {"field": "2022", "type": "quantitative", "title": "Arrivals 2022"},
-          {"field": "2023", "type": "quantitative", "title": "Arrivals 2023"},
-          {"field": "2024", "type": "quantitative", "title": "Arrivals 2024"}
-        ]
-      },
-      "config": {
-        "line": {"strokeWidth": 2},
-        "point": {"size": 50},
-        "axisY": {"reverse": true}
-      }
+      "as": ["Year", "Rank"]
+    },
+    {
+      "calculate": "replace(datum.Year, 'Rank_', '')",
+      "as": "YearClean"
+    },
+    {
+      "calculate": "toNumber(datum.YearClean)",
+      "as": "YearNum"
     }
+  ],
+  "mark": {
+    "type": "line",
+    "point": true
+  },
+  "encoding": {
+    "x": {
+      "field": "YearNum",
+      "type": "ordinal",
+      "title": "Year"
+    },
+    "y": {
+      "field": "Rank",
+      "sort": "descending",
+      "title": "Rank (1 = Highest)",
+      "scale": {"reverse": true}
+    },
+    "color": {
+      "field": "Country",
+      "type": "nominal",
+      "legend": {"title": "Country"}
+    },
+    "tooltip": [
+      {"field": "Country", "type": "nominal"},
+      {"field": "Rank", "title": "Rank"},
+      {"field": "2019", "type": "quantitative", "title": "Arrivals 2019"},
+      {"field": "2022", "type": "quantitative", "title": "Arrivals 2022"},
+      {"field": "2023", "type": "quantitative", "title": "Arrivals 2023"},
+      {"field": "2024", "type": "quantitative", "title": "Arrivals 2024"}
+    ]
+  },
+  "config": {
+    "line": {"strokeWidth": 2},
+    "point": {"size": 50},
+    "axisY": {"reverse": true}
+  }
+}
