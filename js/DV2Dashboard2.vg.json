@@ -1,91 +1,91 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 750,
+    "height": 500,
   "hconcat": [
     {
-    "title": {
-      "text": "Malaysia GDP Growth (2019–2024)",
-      "font": "Times New Roman",
-      "fontSize": 16,
-      "anchor": "middle"
-    },
-    "data": {
-      "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/GDP.csv"
-    },
-    "mark": {
-      "type": "line",
-      "point": true,
-      "strokeWidth": 2,
-      "color": "#0072B2"
-    },
-    "encoding": {
-      "x": {
-        "field": "Year",
-        "type": "ordinal",
-        "axis": {"title": "Year"}
+      "title": {
+        
+        "text": "Malaysia GDP Growth (2019–2024)",
+        "font": "Times New Roman",
+        "fontSize": 16,
+        "anchor": "middle"
       },
-      "y": {
-        "field": "GDP",
-        "type": "quantitative",
-        "axis": {"title": "GDP %"}
+      "data": {
+        "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/GDP.csv"
       },
-      "tooltip": [
-        {"field": "Year", "type": "ordinal"},
-        {"field": "GDP", "type": "quantitative", "format": ".1f"}
-      ]
-    }
+      "mark": {
+        "type": "bar",
+        "color": "#0bab30"
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "ordinal",
+          "axis": {"title": "Year"}
+        },
+        "y": {
+          "field": "GDP",
+          "type": "quantitative",
+          "axis": {"title": "GDP %"}
+        },
+        "tooltip": [
+          {"field": "Year", "type": "ordinal"},
+          {"field": "GDP", "type": "quantitative", "format": ".1f"}
+        ]
+      }
     },
     {
-  "title": {
-    "text": "Weekly Flights and Seats by Region (2024)",
-    "font": "Times New Roman",
-    "fontSize": 16,
-    "anchor": "middle"
-  },
-  "data": {
-    "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/WeeklyFlight.csv"
-  },
-  "transform": [
-    {
-      "calculate": "toNumber(datum['Seat 2024']) / toNumber(datum['Flight 2024'])",
-      "as": "SeatPerFlight"
+      "title": {
+        "text": "Weekly Flights and Seats by Region (2024)",
+        "font": "Times New Roman",
+        "fontSize": 16,
+        "anchor": "middle"
+      },
+      "data": {
+        "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/WeeklyFlight.csv"
+      },
+      "transform": [
+        {
+          "calculate": "toNumber(datum['Seat 2024']) / toNumber(datum['Flight 2024'])",
+          "as": "SeatPerFlight"
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "opacity": 0.8,
+        "stroke": "black",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "Flight 2024",
+          "type": "quantitative",
+          "axis": {"title": "Number of Flights (2024)"}
+        },
+        "y": {
+          "field": "Seat 2024",
+          "type": "quantitative",
+          "axis": {"title": "Number of Seats (2024)"}
+        },
+        "size": {
+          "field": "SeatPerFlight",
+          "type": "quantitative",
+          "title": "Seats per Flight Ratio",
+          "scale": {"domain": [0, 250]}
+        },
+        "color": {
+          "field": "Region",
+          "type": "nominal",
+          "legend": {"title": "Region"}
+        },
+        "tooltip": [
+          {"field": "Region", "type": "nominal"},
+          {"field": "Flight 2024", "type": "quantitative"},
+          {"field": "Seat 2024", "type": "quantitative"},
+          {"field": "SeatPerFlight", "type": "quantitative", "format": ".1f", "title": "Seats/Flight Ratio"}
+        ]
+      }
     }
-  ],
-  "mark": {
-    "type": "circle",
-    "opacity": 0.8,
-    "stroke": "black",
-    "strokeWidth": 1
-  },
-  "encoding": {
-    "x": {
-      "field": "Flight 2024",
-      "type": "quantitative",
-      "axis": {"title": "Number of Flights (2024)"}
-    },
-    "y": {
-      "field": "Seat 2024",
-      "type": "quantitative",
-      "axis": {"title": "Number of Seats (2024)"}
-    },
-    "size": {
-      "field": "SeatPerFlight",
-      "type": "quantitative",
-      "title": "Seats per Flight Ratio",
-      "scale": {"domain": [0, 250]}
-    },
-    "color": {
-      "field": "Region",
-      "type": "nominal",
-      "legend": {"title": "Region"}
-    },
-    "tooltip": [
-      {"field": "Region", "type": "nominal"},
-      {"field": "Flight 2024", "type": "quantitative"},
-      {"field": "Seat 2024", "type": "quantitative"},
-      {"field": "SeatPerFlight", "type": "quantitative", "format": ".1f", "title": "Seats/Flight Ratio"}
-    ]
-  }
+  ]
 }
-]
-}
-
