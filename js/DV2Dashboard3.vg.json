@@ -56,7 +56,7 @@
       "mark": {"type": "bar"}
     },
 
-    {
+        {
       "title": {
         "text": "Average Hotel Room Capacity by State and Year",
         "font": "Times New Roman",
@@ -120,138 +120,69 @@
         ]
       }
     },
-        {
-      "title": {
-        "text": "Average Hotel Room Capacity by State and Year",
-        "font": "Times New Roman",
-        "fontSize": 16,
-        "anchor": "middle"
-      },
-      "data": {
-        "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/HotelRooms.csv"
-      },
-      "transform": [
-        {
-          "calculate": "toNumber(datum['2020 Room'])/toNumber(datum['2020 Hotel'])",
-          "as": "2020"
-        },
-        {
-          "calculate": "toNumber(datum['2021 Room'])/toNumber(datum['2021 Hotel'])",
-          "as": "2021"
-        },
-        {
-          "calculate": "toNumber(datum['2022 Room'])/toNumber(datum['2022 Hotel'])",
-          "as": "2022"
-        },
-        {
-          "calculate": "toNumber(datum['2023 Room'])/toNumber(datum['2023 Hotel'])",
-          "as": "2023"
-        },
-        {
-          "calculate": "toNumber(datum['2024 Room'])/toNumber(datum['2024 Hotel'])",
-          "as": "2024"
-        },
-        {
-          "fold": ["2020", "2021", "2022", "2023", "2024"],
-          "as": ["Year", "AvgRooms"]
-        }
+  {
+  "title": {
+    "text": "Average Hotel Rooms per Hotel (Normalized by Year)",
+    "font": "Times New Roman",
+    "fontSize": 16,
+    "anchor": "middle"
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/HotelRooms.csv"
+  },
+  "transform": [
+    {
+      "fold": [
+        "2020 Hotel", "2021 Hotel", "2022 Hotel", "2023 Hotel", "2024 Hotel",
+        "2020 Room", "2021 Room", "2022 Room", "2023 Room", "2024 Room"
       ],
-      "width": 800,
-      "height": 400,
-      "mark": "rect",
-      "encoding": {
-        "x": {
-          "field": "Year",
-          "type": "ordinal",
-          "title": "Year"
-        },
-        "y": {
-          "field": "State",
-          "type": "nominal",
-          "title": "State / Region",
-          "sort": "-x"
-        },
-        "color": {
-          "field": "AvgRooms",
-          "type": "quantitative",
-          "title": "Average Rooms per Hotel",
-          "scale": {"type": "pow", "exponent": 0.5, "scheme": "blues"}
-        },
-        "tooltip": [
-          {"field": "State", "title": "State"},
-          {"field": "Year", "title": "Year"},
-          {"field": "AvgRooms", "title": "Avg. Rooms/Hotel", "format": ".1f"}
-        ]
-      }
+      "as": ["Category", "Value"]
     },
     {
-      "title": {
-      "text": "Average Hotel Rooms per Hotel (Normalized by Year)",
-      "font": "Times New Roman",
-      "fontSize": 16,
-      "anchor": "middle"
+      "calculate": "substring(datum.Category, 0, 4)",
+      "as": "Year"
     },
-    "data": {
-      "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/HotelRooms.csv"
+    {
+      "calculate": "indexof(datum.Category, 'Room') > -1 ? 'Room' : 'Hotel'",
+      "as": "Type"
     },
-    "transform": [
-      {
-        "fold": [
-          "2020 Hotel", "2021 Hotel", "2022 Hotel", "2023 Hotel", "2024 Hotel",
-          "2020 Room", "2021 Room", "2022 Room", "2023 Room", "2024 Room"
-        ],
-        "as": ["Category", "Value"]
-      },
-      {
-        "calculate": "substring(datum.Category, 0, 4)", 
-        "as": "Year"
-      },
-      {
-        "calculate": "indexof(datum.Category, 'Room') > -1 ? 'Room' : 'Hotel'",
-        "as": "Type"
-      },
-      {
-        "joinaggregate": [{"op": "max", "field": "Value", "as": "MaxValue"}],
-        "groupby": ["State", "Year"]
-      },
-      {
-        "pivot": "Type",
-        "value": "Value"
-      },
-      {
-        "calculate": "datum.Room / datum.Hotel",
-        "as": "AvgRooms"
-      },
-      {
-        "window": [
-          {"op": "mean", "field": "AvgRooms", "as": "meanRooms"},
-          {"op": "stdev", "field": "AvgRooms", "as": "sdRooms"}
-        ],
-        "frame": [null, null],
-        "groupby": ["Year"]
-      },
-      {
-        "calculate": "(datum.AvgRooms - datum.meanRooms) / datum.sdRooms",
-        "as": "zRooms"
-      }
-    ],
-    "mark": "rect",
-    "encoding": {
-      "x": {"field": "Year", "type": "ordinal", "axis": {"title": "Year"}},
-      "y": {"field": "State", "type": "nominal", "axis": {"title": "State"}},
-      "color": {
-        "field": "zRooms",
-        "type": "quantitative",
-        "scale": {"scheme": "redblue", "domainMid": 0},
-        "legend": {"title": "Z-Score (relative to year mean)"}
-      },
-      "tooltip": [
-        {"field": "State", "type": "nominal"},
-        {"field": "Year", "type": "ordinal"},
-        {"field": "AvgRooms", "type": "quantitative", "format": ".1f", "title": "Avg Rooms per Hotel"},
-        {"field": "zRooms", "type": "quantitative", "format": ".2f", "title": "Z-Score"}
-      ]
+    {
+      "pivot": "Type",
+      "value": "Value"
+    },
+    {
+      "calculate": "datum.Room / datum.Hotel",
+      "as": "AvgRooms"
+    },
+    {
+      "window": [
+        {"op": "mean", "field": "AvgRooms", "as": "meanRooms"},
+        {"op": "stdev", "field": "AvgRooms", "as": "sdRooms"}
+      ],
+      "groupby": ["Year"]
+    },
+    {
+      "calculate": "(datum.AvgRooms - datum.meanRooms) / datum.sdRooms",
+      "as": "zRooms"
     }
-    } 
+  ],
+  "mark": "rect",
+  "encoding": {
+    "x": {"field": "Year", "type": "ordinal", "axis": {"title": "Year"}},
+    "y": {"field": "State", "type": "nominal", "axis": {"title": "State"}},
+    "color": {
+      "field": "zRooms",
+      "type": "quantitative",
+      "scale": {"scheme": "redblue", "domain": [-2, 2], "domainMid": 0},
+      "legend": {"title": "Z-Score (relative to year mean)"}
+    },
+    "tooltip": [
+      {"field": "State", "type": "nominal"},
+      {"field": "Year", "type": "ordinal"},
+      {"field": "AvgRooms", "type": "quantitative", "format": ".1f", "title": "Avg Rooms per Hotel"},
+      {"field": "zRooms", "type": "quantitative", "format": ".2f", "title": "Z-Score"}
+        ]
+      }
+    }
   ]
 }
