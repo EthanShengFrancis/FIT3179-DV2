@@ -2,16 +2,50 @@
 
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 750,
-    "height": 500,
-  "vconcat": [
-      {
+  "hconcat": [
+    {
       "title": {
-        "text": "Weekly Flights and Seats by Region (2024)",
-        "font": "Times New Roman",
+        
+        "text": "Malaysia GDP Growth (2019–2024)",
+        "font": "Arial",
         "fontSize": 16,
         "anchor": "middle"
       },
+      "width": 400,
+      "height": 400,
+      "data": {
+        "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/GDP.csv"
+      },
+      "mark": {
+        "type": "bar",
+        "color": "#0bab30"
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "ordinal",
+          "axis": {"title": "Year"}
+        },
+        "y": {
+          "field": "GDP",
+          "type": "quantitative",
+          "axis": {"title": "GDP %"}
+        },
+        "tooltip": [
+          {"field": "Year", "type": "ordinal"},
+          {"field": "GDP", "type": "quantitative", "format": ".1f"}
+        ]
+      }
+    },
+      {
+      "title": {
+        "text": "Weekly Flights and Seats by Region (2024)",
+        "font": "Arial",
+        "fontSize": 16,
+        "anchor": "middle"
+      },
+      "width": 400,
+      "height": 400,
       "data": {
         "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/WeeklyFlight.csv"
       },
@@ -56,38 +90,6 @@
           {"field": "SeatPerFlight", "type": "quantitative", "format": ".1f", "title": "Seats/Flight Ratio"}
         ]
         }
-      },
-      {
-      "title": {
-        
-        "text": "Malaysia GDP Growth (2019–2024)",
-        "font": "Times New Roman",
-        "fontSize": 16,
-        "anchor": "middle"
-      },
-      "data": {
-        "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/GDP.csv"
-      },
-      "mark": {
-        "type": "bar",
-        "color": "#0bab30"
-      },
-      "encoding": {
-        "x": {
-          "field": "Year",
-          "type": "ordinal",
-          "axis": {"title": "Year"}
-        },
-        "y": {
-          "field": "GDP",
-          "type": "quantitative",
-          "axis": {"title": "GDP %"}
-        },
-        "tooltip": [
-          {"field": "Year", "type": "ordinal"},
-          {"field": "GDP", "type": "quantitative", "format": ".1f"}
-        ]
       }
-    }
   ]
 }
