@@ -45,12 +45,22 @@
         <div id="hotel_analytics" class="vis-container"></div>
       </div>
     </div>
+      <div class="pure-u-1-1">
+        <div class="description">
+          <h2>Monthly Visitor Arrivals (2023 vs 2024)</h2>
+          <p>This stacked area chart shows the monthly visitor arrivals for the years 2023 and 2024.</p>
+        </div>
+        <div id="stacked_area" class="vis-container"></div>
+      </div>
+    </div>
+
 
   <script type="text/javascript">
     var spec1 = "js/DV2Dashboard.vg.json";
     var spec2 = "js/DV2Dashboard2.vg.json";
     var spec3 = "js/DV2Dashboard3.vg.json";
     var spec4 = "js/DV2Dashboard4.vg.json";
+    var spec5 = "js/DV2Dashboard5.vg.json";
 
     // Embed choropleth
     vegaEmbed('#choropleth_map', spec1, { "actions": false })
@@ -67,6 +77,10 @@
       .catch(console.error);
 
     vegaEmbed('#bump_chart', spec4, { "actions": false })
+      .then(function(result) {})
+      .catch(console.error);
+
+    vegaEmbed('#stacked_area', spec5, { "actions": false })
       .then(function(result) {})
       .catch(console.error);
   </script>
