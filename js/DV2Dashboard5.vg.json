@@ -1,62 +1,72 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Stacked area chart of monthly visitor arrivals for multiple years with legend filtering.",
+  "description": "Monthly visitor arrivals by selected years",
+  "width": 700,
+  "height": 400,
   "data": {
     "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/MonthlyArrivals.csv"
   },
-"params": [
-  {
-    "name": "YearDropdown",
-    "value": "2024",
-    "bind": {
-      "input": "select",
-      "options": ["All", "2019", "2020", "2021", "2022", "2023", "2024"],
-      "labels": ["All Years", "2019", "2020", "2021", "2022", "2023", "2024"],
-      "name": "Select Year: "
+
+  "params": [
+    {
+      "name": "startYear",
+      "value": "2023",
+      "bind": {
+        "input": "select",
+        "options": ["2019", "2020", "2021", "2022", "2023", "2024"],
+        "name": "Start Year: "
+      }
+    },
+    {
+      "name": "endYear",
+      "value": "2024",
+      "bind": {
+        "input": "select",
+        "options": ["2019", "2020", "2021", "2022", "2023", "2024"],
+        "name": "End Year: "
+      }
     }
-  }
-],
-"transform": [
-  {"fold": ["2019","2020","2021","2022","2023","2024"], "as": ["Year","Arrivals"]},
-  {"filter": "datum.Year == YearDropdown || YearDropdown == 'All'"}
-],
-  "mark": {
-    "type": "area",
-    "interpolate": "monotone",
-    "opacity": 0.7
-  },
+  ],
+
+  "transform": [
+    {"fold": ["2019", "2020", "2021", "2022", "2023", "2024"], "as": ["Year", "Arrivals"]},
+    {
+      "filter": "datum.Year == startYear || datum.Year == endYear"
+    }
+  ],
+
+  "mark": {"type": "line", "point": true, "strokeWidth": 3},
+
   "encoding": {
     "x": {
       "field": "MONTH",
       "type": "ordinal",
       "sort": [
-        "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
-        "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
+        "JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE",
+        "JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"
       ],
-      "title": "Month"
+      "title": "Month",
+      "axis": {"labelAngle": -45}
     },
     "y": {
-      "aggregate": "sum",
       "field": "Arrivals",
       "type": "quantitative",
-      "title": "Visitor Arrivals"
+      "title": "Visitor Arrivals",
+      "axis": {"format": "~s"}
     },
     "color": {
       "field": "Year",
       "type": "nominal",
       "title": "Year",
-      "scale": {"scheme": "set2"}
-    },
-    "opacity": {
-      "condition": {"param": "YearDropdown", "value": 0.8},
-      "value": 0.1
+      "scale": {
+        "domain": ["2019", "2020", "2021", "2022", "2023", "2024"],
+        "range": ["#beaed4", "#466eb4", "#00a0e1", "#fcdb8c", "#f25038", "#000000"]
+      }
     },
     "tooltip": [
-      {"field": "MONTH", "type": "ordinal"},
-      {"field": "Year", "type": "nominal"},
-      {"field": "Arrivals", "type": "quantitative", "format": ","}
+      {"field": "MONTH", "type": "ordinal", "title": "Month"},
+      {"field": "Year", "type": "nominal", "title": "Year"},
+      {"field": "Arrivals", "type": "quantitative", "title": "Arrivals", "format": ","}
     ]
-  },
-  "width": 700,
-  "height": 400
+  }
 }

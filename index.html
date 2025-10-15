@@ -34,7 +34,7 @@
         <div class="description">
           <h2>Trends in GDP and Weekly Flights/Seats between 2019 and 2024</h2>
         </div>
-        <div id="line_chart" class="vis-container"></div>
+        <div id="bar_chart" class="vis-container"></div>
       </div>
     </div>
       <div class="pure-u-1-1">
@@ -47,10 +47,10 @@
     </div>
       <div class="pure-u-1-1">
         <div class="description">
-          <h2>Monthly Visitor Arrivals (2023 vs 2024)</h2>
-          <p>This stacked area chart shows the monthly visitor arrivals for the years 2023 and 2024.</p>
+          <h2>Monthly Visitor Arrivals Comparison</h2>
+          <p>This line chart shows the monthly visitor arrivals from 2019 to 2024.</p>
         </div>
-        <div id="stacked_area" class="vis-container"></div>
+        <div id="line_chart" class="vis-container"></div>
       </div>
     </div>
 
@@ -67,8 +67,8 @@
       .then(function(result) {})
       .catch(console.error);
 
-    // Embed line chart
-    vegaEmbed('#line_chart', spec2, { "actions": false })
+    // Embed bar chart
+    vegaEmbed('#bar_chart', spec2, { "actions": false })
       .then(function(result) {})
       .catch(console.error);
 
@@ -80,7 +80,7 @@
       .then(function(result) {})
       .catch(console.error);
 
-    vegaEmbed('#stacked_area', spec5, { "actions": false })
+    vegaEmbed('#line_chart', spec5, { "actions": false })
       .then(function(result) {})
       .catch(console.error);
   </script>
