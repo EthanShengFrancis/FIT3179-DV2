@@ -3,7 +3,7 @@
   "title": {
   "text": "Tourist Arrivals to Malaysia by Country of Nationality (2019 to 2024)",
   "font": "Times New Roman",
-  "fontSize": 25,
+  "fontSize": 40,
   "anchor": "middle",
   "align": "center"
   },
@@ -11,8 +11,8 @@
   "vconcat": [
     {
       "title": "Choropleth map from 2019 to 2024 - Select a year with the slider",
-      "width": 800,
-      "height": 420,
+      "width": 1100,
+      "height": 820,
       "projection": {"type": "equalEarth"},
       "layer": [
         {
@@ -97,16 +97,6 @@
             "latitude": {"field": "Latitude", "type": "quantitative"},
             "text": {"field": "Label"}
           }
-        },
-        {
-          "data": {
-            "values": [
-              {"Longitude": 2.21, "Latitude": 46.23},
-              {"Longitude": 138.25, "Latitude": 36.2},
-              {"Longitude": 133.78, "Latitude": -25.27}
-            ]
-          },
-          "mark": {"type": "circle", "size": 40, "color": "red"}
         }
       ]
     }
