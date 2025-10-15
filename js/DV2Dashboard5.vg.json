@@ -1,24 +1,25 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Stacked area chart of monthly visitor arrivals for 2023 and 2024.",
+  "description": "Stacked area chart of monthly visitor arrivals for multiple years with legend filtering.",
   "data": {
-        "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/MonthlyArrivals.csv"
+    "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/MonthlyArrivals.csv"
   },
-  "transform": [
-    {
-      "fold": ["2019", "2020", "2021", "2022", "2023", "2024"],
-      "as": ["Year", "Arrivals"]
-    },
-    {
-      "filter": "isValid(datum.Arrivals)"
+"params": [
+  {
+    "name": "YearDropdown",
+    "value": "2024",
+    "bind": {
+      "input": "select",
+      "options": ["All", "2019", "2020", "2021", "2022", "2023", "2024"],
+      "labels": ["All Years", "2019", "2020", "2021", "2022", "2023", "2024"],
+      "name": "Select Year: "
     }
-  ],
-  "params": [
-    {
-      "name": "YearSelection",
-      "select": {"type": "point", "fields": ["Year"], "bind": "legend"}
-    }
-  ],
+  }
+],
+"transform": [
+  {"fold": ["2019","2020","2021","2022","2023","2024"], "as": ["Year","Arrivals"]},
+  {"filter": "datum.Year == YearDropdown || YearDropdown == 'All'"}
+],
   "mark": {
     "type": "area",
     "interpolate": "monotone",
@@ -47,7 +48,7 @@
       "scale": {"scheme": "set2"}
     },
     "opacity": {
-      "condition": {"param": "YearSelection", "value": 0.7},
+      "condition": {"param": "YearDropdown", "value": 0.8},
       "value": 0.1
     },
     "tooltip": [
