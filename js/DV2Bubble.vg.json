@@ -6,16 +6,17 @@
         "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/WeeklyFlight.csv"
     },
     "params": [
-        {
-            "name": "Flight_Year",
-            "value": 2024,
-            "bind": {
-                "input": "select",
-                "options": [2022, 2023, 2024],
-                "labels": ["2022", "2023", "2024"],
-                "name": "Select Year: "
+            {
+                "name": "Flight_Year",
+                "value": 2024,
+                "bind": {
+                    "input": "range",
+                    "min": 2022,
+                    "max": 2024,
+                    "step": 1,
+                    "name": "Select Year: "
+                }
             }
-        }
     ],
     "transform": [
         {
@@ -59,7 +60,25 @@
         "color": {
             "field": "Region",
             "type": "nominal",
-            "legend": {"title": "Region"}
+            "legend": {"title": "Region"},
+            "scale": {
+                "domain": [
+                    "Europe",
+                    "Middle East",
+                    "North East Asia",
+                    "South Asia",
+                    "South East Asia",
+                    "Southwest Pacific"
+                ],
+                "range": [
+                    "#E69F00",
+                    "#56B4E9",
+                    "#332421",
+                    "#F0E442",
+                    "#BF77F6",
+                    "#D55E00"
+                ]
+            }
         },
         "tooltip": [
             {"field": "Region", "type": "nominal"},
