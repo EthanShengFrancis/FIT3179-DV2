@@ -6,8 +6,9 @@
                 "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/FIT3179%20DV2%20Map.csv"
             },
             "transform": [
-                {"filter": "datum.Rank_2024 <= 6"},
+                {"filter": "datum.Rank_2024 <= 7"},
                 {"fold": ["Rank_2019","Rank_2020", "Rank_2021", "Rank_2022", "Rank_2023", "Rank_2024"], "as": ["Year", "Rank"]},
+                {"calculate": "toNumber(datum.Rank)", "as": "Rank"}, 
                 {"calculate": "replace(datum.Year, 'Rank_', '')", "as": "YearClean"},
                 {"calculate": "toNumber(datum.YearClean)", "as": "YearNum"}
             ],
@@ -21,7 +22,8 @@
                             "type": "quantitative",
                             "sort": "descending", 
                             "title": "Rank (1 = Highest)", 
-                            "scale": {"reverse": true, "domain": [1, 6]}
+                            "scale": {"reverse": true, "domain": [1, 6], "clamp": true}
+
                         },
                         "color": {
                           "field": "Country",
@@ -40,7 +42,7 @@
                     }
                 },
                 {
-                   "data": {"values": [{"x": 2023.5, "y": 4.7, "text": " Brunei has had the consistency \\n to remain fifth through the years."}]},
+                   "data": {"values": [{"x": 2024, "y": 4.4, "text": " Brunei has the \\n longest consistency \\n to remain fifth \\n through 2022 to 2024"}, {"x": 2021, "y": 3.4, "text": " China had the greatest fall from \\n 3 to 6 due to covid"}]},
                    "mark": {"type": "text", "dx": 10, "dy": -10, "fontSize": 12, "fontWeight": "bold", "lineBreak": "\\n"},
                    "encoding": {
                      "x": {"field": "x", "type": "ordinal"},
@@ -53,4 +55,4 @@
                 "line": {"strokeWidth": 3},
                 "point": {"size": 100, "filled": true}
             }
-        }
+}
