@@ -1,18 +1,10 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "vconcat": [
-    {
-      "title": {
-      "text": "Tourist Arrivals to Malaysia by Country of Nationality (2019 to 2024)",
-      "font": "Arial",
-      "fontSize": 16,
-      "anchor": "middle",
-      "align": "center"
-      },
-      "width": 1100,
-      "height": 520,
-      "projection": {"type": "equalEarth"},
-      "layer": [
+"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+"vconcat": [{
+    "width": 1100,
+    "height": 520,
+    "projection": {"type": "equalEarth"},
+    "layer": [
         {
           "data": {"sphere": true},
           "mark": {"type": "geoshape", "fill": "#6fb4ff"}

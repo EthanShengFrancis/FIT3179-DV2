@@ -1,0 +1,28 @@
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 400,
+    "height": 400,
+    "data": {
+        "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/GDP.csv"
+    },
+    "mark": {
+        "type": "bar",
+        "color": "#0bab30"
+    },
+    "encoding": {
+        "x": {
+            "field": "Year",
+            "type": "ordinal",
+            "axis": {"title": "Year"}
+        },
+        "y": {
+            "field": "GDP",
+            "type": "quantitative",
+            "axis": {"title": "GDP Growth (%)"}
+        },
+        "tooltip": [
+            {"field": "Year", "type": "ordinal"},
+            {"field": "GDP", "type": "quantitative", "format": ".1f", "title": "GDP %"}
+        ]
+    }
+}

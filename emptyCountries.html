@@ -1,66 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+
   <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.8"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.5.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.0"></script>
+
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+    integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
 </head>
+
 <body>
-  <div id="vis"/>
-  <script>
-    const spec = {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Top 20 Visitor Arrivals to Malaysia by Country of Nationality (2024)",
-  "width": 800,
-  "height": 500,
-  "data": {
-    "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/3_choropleth_map/js/ne_110m_admin_0_countries.topojson",
-    "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
-  },
-  "projection": {"type": "equalEarth"},
-  "layer": [
-    {
-      "transform": [
-        {
-          "calculate": "'Data is not available in ' + datum.properties.NAME",
-          "as": "note"
-        }
-      ],
-      "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white"},
-      "encoding": {"tooltip": {"field": "note"}}
-    },
-    {
-      "transform": [
-        {
-          "lookup": "properties.NAME",
-          "from": {
-            "data": {
-              "url": "https://raw.githubusercontent.com/EthanShengFrancis/Homework-Week-9/main/data/Malaysia_choropleth.csv"
-            },
-            "key": "Country",
-            "fields": ["2024", "2023", "Growth %"]
-          }
-        },
-      ],
-      "mark": {"type": "geoshape", "stroke": "white"},
-      "encoding": {
-        "color": {
-          "field": "2024",
-          "type": "quantitative",
-          "scale": {"type": "log"}
-         }
-        },
-        "tooltip": [
-          {"field": "properties.NAME", "type": "nominal", "title": "Country"},
-          {"field": "2024", "type": "quantitative", "title": "Arrivals 2024"},
-          {"field": "2023", "type": "quantitative", "title": "Arrivals 2023"},
-          {"field": "Growth %", "type": "quantitative", "title": "Growth (%)"}
-        ]
-      }
-  ],
-  "config": {}
-};
-    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  <div class="pure-g">
+    <div class="pure-u-1-1">
+      <div class="description">
+        <h1 style="font-family: 'Times New Roman', Times, serif; font-size: 60px;">Malaysia's Tourism Industry Overview (2019-2024)</h1>
+      </div>
+      <div id="choropleth_map" class="vis-container"></div>
+    </div>
+  </div>
+
+  <div class="pure-g">
+    <div class="pure-u-1-1">
+      <div class="description">
+        <h2>Ranking of countries' tourist arrivals between 2019, 2022, 2023 or 2024</h2>
+      </div>
+      <div id="bump_chart" class="vis-container"></div>
+    </div>
+  </div>
+
+  <div class="pure-g">
+    <div class="pure-u-1-1">
+      <div class="description">
+        <h2>Trends in GDP and Weekly Flights/Seats</h2>
+        <p>The GDP in the bar chart can be seen decreasing into 2021 as COVID-19 impacted Malaysia's operations.</p>
+        <p>On the other hand, the number of weekly flights and seats remained relatively stable, proving the rise in GDP in 2024.</p>
+      </div>
+      <div id="bar_chart" class="vis-container"></div>
+    </div>
+  </div>
+
+  <div class="pure-g">
+    <div class="pure-u-1-1">
+      <div class="description">
+        <h2>Domestic vs Foreigner Tourist Arrivals by State (2024)</h2>
+        <p>The bar chart compares the number of domestic and foreign tourist arrivals in every state of Malaysia for the year 2024.</p>
+      </div>
+      <div id="hotel_analytics" class="vis-container"></div>
+    </div>
+  </div>
+
+  <div class="pure-g">
+    <div class="pure-u-1-1">
+      <div class="description">
+        <h2>Monthly Visitor Arrivals Comparison</h2>
+        <p>The line chart shows the monthly visitor arrivals from 2019 to 2024.</p>
+      </div>
+      <div id="line_chart" class="vis-container"></div>
+    </div>
+  </div>
+
+
+  <script type="text/javascript">
+    var spec1 = "js/DV2Dashboard.vg.json";
+    var spec2 = "js/DV2Dashboard2.vg.json";
+    var spec3 = "js/DV2Dashboard3.vg.json";
+    var spec4 = "js/DV2Dashboard4.vg.json";
+    var spec5 = "js/DV2Dashboard5.vg.json";
+
+    // Embed choropleth
+    vegaEmbed('#choropleth_map', spec1, { "actions": false })
+      .then(function(result) {})
+      .catch(console.error);
+
+    // Embed bar chart
+    vegaEmbed('#bar_chart', spec2, { "actions": false })
+      .then(function(result) {})
+      .catch(console.error);
+
+    vegaEmbed('#hotel_analytics', spec3, { "actions": false })
+      .then(function(result) {})
+      .catch(console.error);
+
+    vegaEmbed('#bump_chart', spec4, { "actions": false })
+      .then(function(result) {})
+      .catch(console.error);
+
+    vegaEmbed('#line_chart', spec5, { "actions": false })
+      .then(function(result) {})
+      .catch(console.error);
   </script>
 </body>
 </html>

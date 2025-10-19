@@ -1,74 +1,259 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malaysia Tourism Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.5.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.0"></script>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+        integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.5.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.0"></script>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
 
-  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
-    integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+        .page-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
 
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+        /* Header Styles */
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
 
-  <!-- Custom CSS -->
-  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+        .page-header h1 {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 3em;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .page-header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Chart Container Styles */
+        .chart-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .chart-section:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .section-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section-header h2 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+
+        /* Visualization Container */
+        .vis-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            overflow: hidden;
+        }
+
+        .vis-container > div {
+            pointer-events: none;
+        }
+
+        /* Enable interaction only on interactive elements */
+        .vis-container canvas,
+        .vis-container svg {
+            pointer-events: auto;
+        }
+
+        /* Side by side layout for GDP and Flights */
+        .dual-chart-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .dual-chart-item {
+            flex: 1;
+            min-width: 400px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Disable zoom on hover */
+        .vis-container:hover {
+            transform: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .page-header h1 {
+                font-size: 2.5em;
+            }
+            
+            .dual-chart-item {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2em;
+            }
+            
+            .section-header h2 {
+                font-size: 1.5em;
+            }
+            
+            .chart-section {
+                padding: 20px;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
+        }
+    </style>
 </head>
 
 <body>
-  <div class="pure-g">
-    <div class="pure-u-1-1">
-      <div class="description">
-        <h1 style="font-family: 'Times New Roman', Times, serif; font-size: 80px;">Malaysia's Tourism Industry Overview (2019-2024)</h1>
-      </div>
-      <div id="choropleth_map" class="vis-container"></div>
-    </div>
-  </div>
+    <div class="page-container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1>Malaysia's Tourism Industry Overview</h1>
+            <p>Comprehensive Analysis of Tourist Arrivals, Economic Indicators & Regional Distribution (2019-2024)</p>
+        </div>
 
-  <div class="pure-g">
-    <div class="pure-u-1-1">
-      <div class="description">
-        <h2>Ranking of countries' tourist arrivals between 2019, 2022, 2023 or 2024</h2>
-      </div>
-      <div id="bump_chart" class="vis-container"></div>
-    </div>
-  </div>
+        <!-- Choropleth Map Section -->
+        <div class="chart-section">
+            <div class="section-header">
+                <h2>🌍 Global Tourist Arrivals by Country</h2>
+                <p>Interactive map showing tourist arrivals to Malaysia from different countries. Use the year slider to explore trends from 2019 to 2024.</p>
+                <p><strong>Key Insight:</strong> Singapore consistently leads in tourist arrivals, while China showed the biggest growth rate of 593.4% between 2022 and 2023.</p>
+            </div>
+            <div class="vis-container">
+                <div id="choropleth_map"></div>
+            </div>
+        </div>
 
-  <div class="pure-g">
-    <div class="pure-u-1-1">
-      <div class="description">
-        <h2>Trends in GDP and Weekly Flights/Seats</h2>
-        <p>The GDP in the bar chart can be seen decreasing into 2021 as COVID-19 impacted Malaysia's operations.</p>
-        <p>On the other hand, the number of weekly flights and seats remained relatively stable, proving the rise in GDP in 2024.</p>
-      </div>
-      <div id="bar_chart" class="vis-container"></div>
-    </div>
-  </div>
+        <!-- Bump Chart Section -->
+        <div class="chart-section">
+            <div class="section-header">
+                <h2>📊 Top 6 Countries Ranking Evolution</h2>
+                <p>Track how the rankings of the top 6 source countries have changed over the years from 2019 to 2024.</p>
+                <p><strong>Key Insight:</strong> Observe which countries maintained their positions and which experienced significant shifts in ranking.</p>
+            </div>
+            <div class="vis-container">
+                <div id="bump_chart"></div>
+            </div>
+        </div>
 
-  <div class="pure-g">
-    <div class="pure-u-1-1">
-      <div class="description">
-        <h2>Domestic vs Foreigner Tourist Arrivals by State (2024)</h2>
-        <p>The bar chart compares the number of domestic and foreign tourist arrivals in every state of Malaysia for the year 2024.</p>
-      </div>
-      <div id="hotel_analytics" class="vis-container"></div>
-    </div>
-  </div>
+        <!-- GDP and Flights Section (Side by Side) -->
+        <div class="chart-section">
+            <div class="section-header">
+                <h2>💹 Economic Growth & Aviation Infrastructure</h2>
+                <p>The GDP chart shows how COVID-19 impacted Malaysia's economy in 2020-2021, followed by recovery in subsequent years.</p>
+                <p>The aviation capacity chart reveals the relationship between weekly flights and available seats across different regions in 2024.</p>
+            </div>
+            <div class="dual-chart-container">
+                <div class="dual-chart-item">
+                    <div id="bar_chart"></div>
+                </div>
+                <div class="dual-chart-item">
+                    <div id="line_chart"></div>
+                </div>
+            </div>
+        </div>
 
-  <div class="pure-g">
-    <div class="pure-u-1-1">
-      <div class="description">
-        <h2>Monthly Visitor Arrivals Comparison</h2>
-        <p>The line chart shows the monthly visitor arrivals from 2019 to 2024.</p>
-      </div>
-      <div id="line_chart" class="vis-container"></div>
+        <!-- Monthly Trends Section -->
+        <div class="chart-section">
+            <div class="section-header">
+                <h2>📅 Monthly Arrival Patterns</h2>
+                <p>Compare monthly visitor arrivals between any two years from 2019 to 2024 to identify seasonal trends and recovery patterns.</p>
+                <p><strong>Key Insight:</strong> Discover peak tourist seasons and how the pandemic affected monthly arrival patterns.</p>
+            </div>
+            <div class="vis-container">
+                <div id="monthly_chart"></div>
+            </div>
+        </div>
+
+        <!-- Hotel Analytics Section -->
+        <div class="chart-section">
+            <div class="section-header">
+                <h2>🏨 State-Level Tourist Distribution</h2>
+                <p>Pyramid chart comparing domestic versus foreign tourist arrivals across all Malaysian states in 2024.</p>
+                <p><strong>Key Insight:</strong> Identify which states are more popular among domestic tourists versus international visitors.</p>
+            </div>
+            <div class="vis-container">
+                <div id="hotel_analytics"></div>
+            </div>
+        </div>
     </div>
-  </div>
 
 
   <script type="text/javascript">
     var spec1 = "js/DV2Dashboard.vg.json";
     var spec2 = "js/DV2Dashboard2.vg.json";
+    var spec2_5 = "js/DV2Dashboard2_5.vg.json";
     var spec3 = "js/DV2Dashboard3.vg.json";
     var spec4 = "js/DV2Dashboard4.vg.json";
     var spec5 = "js/DV2Dashboard5.vg.json";
@@ -79,6 +264,10 @@
       .catch(console.error);
 
     // Embed bar chart
+    vegaEmbed('#monthly_chart', spec2, { "actions": false })
+      .then(function(result) {})
+      .catch(console.error);
+
     vegaEmbed('#bar_chart', spec2, { "actions": false })
       .then(function(result) {})
       .catch(console.error);

@@ -1,6 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "6 Highest Countries' Tourist Arrivals Between 2019–2024",
+    "title": {
+    "text": "6 Highest Countries' Tourist Arrivals Between 2019–2024)",
+    "font": "Arial",
+    "fontSize": 16,
+    "anchor": "middle"
+  },
   "width": 800,
   "height": 420,
   "data": {
