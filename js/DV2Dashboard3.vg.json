@@ -16,7 +16,7 @@
           "field": "Country/Region",
           "type": "nominal",
           "sort": {"field": "Foreigner 2024", "order": "descending"},
-          "axis": {"title": "State / Region", "offset": 5, "labelLimit": 120}
+          "axis": {"title": "State", "offset": 5, "labelLimit": 120}
       },
       "x": {
           "field": "Value",
