@@ -1,18 +1,26 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Malaysia Tourism Dashboard</title>
+    
+    <!-- Vega Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.5.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.0"></script>
+    
+    <!-- Pure CSS Framework -->
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
         integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+    
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* ========================================
+           GLOBAL RESET & BASE STYLES
+           ======================================== */
         * {
             margin: 0;
             padding: 0;
@@ -26,122 +34,172 @@
             line-height: 1.6;
         }
 
+        /* ========================================
+           MAIN CONTAINER
+           ======================================== */
         .page-container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 60px 40px; /* Consistent top/bottom spacing */
         }
 
-        /* Header Styles */
+        /* ========================================
+           HEADER SECTION
+           ======================================== */
         .page-header {
             text-align: center;
-            margin-bottom: 60px;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin-bottom: 80px; /* White space below header */
+            padding: 50px 30px;
+            background: #ffffff;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
         .page-header h1 {
             font-family: 'Times New Roman', Times, serif;
             font-size: 3em;
-            color: white;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            line-height: 1.2; /* Improved sight lines */
         }
 
         .page-header p {
-            color: rgba(0, 0, 0, 0.9);
+            color: #555;
             font-size: 1.1em;
-            max-width: 800px;
+            max-width: 700px; /* Controlled line length */
             margin: 0 auto;
+            line-height: 1.8; /* Comfortable reading */
         }
 
-        /* Chart Container Styles */
+        /* Metadata - Author/Date */
+        .metadata {
+            margin-top: 20px;
+            font-size: 0.85em;
+            color: #888;
+            font-style: italic;
+        }
+
+        /* ========================================
+           CHART SECTION CONTAINERS
+           ======================================== */
         .chart-section {
             background: white;
             border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 40px;
+            padding: 40px; /* Generous internal padding */
+            margin-bottom: 60px; /* Consistent white space between sections */
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: box-shadow 0.3s ease;
         }
 
         .chart-section:hover {
             box-shadow: 0 8px 25px rgba(0,0,0,0.12);
         }
 
+        /* ========================================
+           SECTION HEADERS
+           ======================================== */
         .section-header {
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #ececec;
+            margin-bottom: 30px; /* White space below header */
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e8e8e8;
         }
 
         .section-header h2 {
-            font-size: 1.8em;
+            font-size: 1.9em;
             color: #2c3e50;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             font-weight: 700;
+            line-height: 1.3; /* Clear sight lines */
+            max-width: 600px; /* Not more than 10 words per line */
         }
 
         .section-header p {
             color: #666;
             font-size: 1em;
-            line-height: 1.6;
-            margin: 5px 0;
+            line-height: 1.8; /* Comfortable reading */
+            margin: 8px 0;
+            max-width: 800px; /* Controlled line length */
         }
 
-        /* Visualization Container */
+        .section-header p strong {
+            color: #2c3e50;
+        }
+
+        /* ========================================
+           VISUALIZATION CONTAINERS
+           ======================================== */
+        
+        /* Standard visualization container */
         .vis-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px 0;
-            overflow: hidden;
+            padding: 30px 0; /* White space around visualizations */
+            min-height: 400px;
         }
 
-        .vis-container > div {
-            pointer-events: none;
-        }
-
-        /* Enable interaction only on interactive elements */
-        .vis-container canvas,
-        .vis-container svg {
-            pointer-events: auto;
-        }
-
-        /* Side by side layout for GDP and Flights */
-        .dual-chart-container {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .dual-chart-item {
-            flex: 1;
-            min-width: 400px;
+        /* CRITICAL FIX: Allow interaction with controls */
+        .vis-container-interactive {
             display: flex;
             justify-content: center;
+            align-items: center;
+            padding: 30px 0;
+            pointer-events: auto !important; /* Enable all interactions */
         }
 
-        /* Disable zoom on hover */
-        .vis-container:hover {
-            transform: none;
+        .vis-container-interactive * {
+            pointer-events: auto !important; /* Enable child interactions */
         }
 
-        /* Responsive Design */
+        /* Vertical stacked layout for GDP and Flights */
+        .vertical-stack-container {
+            display: flex;
+            flex-direction: column;
+            gap: 50px; /* White space between stacked charts */
+        }
+
+        .vertical-stack-item {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Sub-section headers for stacked charts */
+        .chart-subsection-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .chart-subsection-header h3 {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .chart-subsection-header p {
+            color: #666;
+            font-size: 0.95em;
+            max-width: 600px; /* Controlled line length */
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           RESPONSIVE DESIGN
+           ======================================== */
         @media (max-width: 1200px) {
             .page-header h1 {
                 font-size: 2.5em;
             }
-            
-            .dual-chart-item {
-                min-width: 100%;
-            }
         }
 
         @media (max-width: 768px) {
+            .page-container {
+                padding: 40px 20px;
+            }
+
             .page-header h1 {
                 font-size: 2em;
             }
@@ -151,11 +209,13 @@
             }
             
             .chart-section {
-                padding: 20px;
+                padding: 25px;
             }
         }
 
-        /* Custom scrollbar */
+        /* ========================================
+           CUSTOM SCROLLBAR
+           ======================================== */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -165,12 +225,12 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #667eea;
+            background: #888;
             border-radius: 5px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #764ba2;
+            background: #555;
         }
     </style>
 </head>
@@ -179,9 +239,17 @@
     <div class="page-container">
         <!-- Header -->
         <div class="page-header">
-            <h1>Malaysia's Tourism Industry Overview</h1>
-            <p>Comprehensive Analysis of Tourist Arrivals, Economic Indicators & Regional Distribution (2019-2024)</p>
+            <h1>Malaysia's Tourism Industry (2019-2024)</h1>
+            <p>
+                Comprehensive Analysis of Tourist Arrivals,
+                Economic Indicators & Regional Distribution
+            </p>
+            <p class="metadata">
+                Created by Ethan Sheng Francis | Student ID: 34280340 | Last Updated: 19/10/2025
+            </p>
         </div>
+        HGMSS
+
 
         <!-- Choropleth Map Section -->
         <div class="chart-section">
