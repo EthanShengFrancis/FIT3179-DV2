@@ -38,7 +38,7 @@
           "legend": {"title": "Type of Tourist"}
       },
       "tooltip": [
-          {"field": "Country/Region", "type": "nominal", "title": "Region"},
+          {"field": "States", "type": "nominal", "title": "Region"},
           {"field": "TouristType", "type": "nominal"},
           {"field": "Value", "type": "quantitative", "format": ","}
       ]
