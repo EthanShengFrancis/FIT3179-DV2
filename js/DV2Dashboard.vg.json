@@ -34,7 +34,7 @@
                   "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/FIT3179%20DV2%20Map.csv"
                 },
                 "key": "Country",
-                "fields": ["2019", "2022", "2023", "2024"]
+                "fields": ["2019", "2020", "2021", "2022", "2023", "2024"]
               }
             },
             {
