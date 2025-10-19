@@ -307,7 +307,7 @@
                 </p>
             </div>
             <div class="chart-container">
-                <div id="arrivals_line"></div>
+                <div id="arrivals_bubble"></div>
             </div>
         </div>
 
@@ -320,7 +320,7 @@
                 <p><strong>Key Insight:</strong> Discover peak tourist seasons and how the pandemic affected monthly arrival patterns.</p>
             </div>
             <div class="vis-container">
-                <div id="monthly_chart"></div>
+                <div id="monthly_line"></div>
             </div>
         </div>
 
@@ -352,21 +352,7 @@
     var spec4 = "js/DV2Dashboard4.vg.json";
     var spec5 = "js/DV2Dashboard5.vg.json";
 
-    // Embed choropleth
     vegaEmbed('#choropleth_map', spec1, { "actions": false })
-      .then(function(result) {})
-      .catch(console.error);
-
-    // Embed bar chart
-    vegaEmbed('#monthly_chart', spec2, { "actions": false })
-      .then(function(result) {})
-      .catch(console.error);
-
-    vegaEmbed('#bar_chart', spec2_5, { "actions": false })
-      .then(function(result) {})
-      .catch(console.error);
-
-    vegaEmbed('#weekly_bubble', spec3, { "actions": false })
       .then(function(result) {})
       .catch(console.error);
 
@@ -374,7 +360,19 @@
       .then(function(result) {})
       .catch(console.error);
 
-    vegaEmbed('#arrivals_line', spec5, { "actions": false })
+  vegaEmbed('#bar_chart', spec2_5, { actions: false })
+      .then(function(result) {})
+      .catch(console.error);
+
+    vegaEmbed('#arrivals_bubble', spec3, { "actions": false })
+      .then(function(result) {})
+      .catch(console.error);
+
+    vegaEmbed('#monthly_line', spec2, { "actions": false })
+      .then(function(result) {})
+      .catch(console.error);
+
+    vegaEmbed('#butterfly_chart', spec5, { "actions": false })
       .then(function(result) {})
       .catch(console.error);
   </script>
