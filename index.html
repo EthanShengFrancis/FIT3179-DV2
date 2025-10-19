@@ -286,7 +286,7 @@
         <!-- GDP Section -->
         <div class="chart-section">
             <div class="section-header">
-                <h2>Malaysia’s Economic Growth (2019–2024)</h2>
+                <h2>Malaysia’s Economic Growth Bar Chart (2019–2024)</h2>
                 <p>
                     This chart illustrates Malaysia’s GDP performance, highlighting the significant downturn 
                     during the COVID-19 pandemic (2020–2021) and the steady recovery in the following years.
@@ -307,7 +307,7 @@
                 </p>
             </div>
             <div class="chart-container">
-                <div id="line_chart"></div>
+                <div id="#arrivals_line"></div>
             </div>
         </div>
 
@@ -315,12 +315,12 @@
         <!-- Monthly Trends Section -->
         <div class="chart-section">
             <div class="section-header">
-                <h2>Buuble Chart of Monthly Arrival of different regions</h2>
+                <h2>Line chart of Monthly Arrival in Malaysia (2019-2024)</h2>
                 <p>Compare monthly visitor arrivals between any two years from 2019 to 2024 to identify seasonal trends and recovery patterns.</p>
                 <p><strong>Key Insight:</strong> Discover peak tourist seasons and how the pandemic affected monthly arrival patterns.</p>
             </div>
             <div class="vis-container">
-                <div id="monthly_chart"></div>
+                <div id="#monthly_chart"></div>
             </div>
         </div>
 
@@ -332,7 +332,7 @@
                 <p><strong>Key Insight:</strong> Identify which states are more popular among domestic tourists versus international visitors.</p>
             </div>
             <div class="vis-container">
-                <div id="hotel_analytics"></div>
+                <div id="#butterfly_chart"></div>
             </div>
         </div>
 
@@ -362,11 +362,11 @@
       .then(function(result) {})
       .catch(console.error);
 
-    vegaEmbed('#bar_chart', spec2, { "actions": false })
+    vegaEmbed('#bar_chart', spec2_5, { "actions": false })
       .then(function(result) {})
       .catch(console.error);
 
-    vegaEmbed('#hotel_analytics', spec3, { "actions": false })
+    vegaEmbed('#weekly_bubble', spec3, { "actions": false })
       .then(function(result) {})
       .catch(console.error);
 
@@ -374,7 +374,7 @@
       .then(function(result) {})
       .catch(console.error);
 
-    vegaEmbed('#line_chart', spec5, { "actions": false })
+    vegaEmbed('#arrivals_line', spec5, { "actions": false })
       .then(function(result) {})
       .catch(console.error);
   </script>
