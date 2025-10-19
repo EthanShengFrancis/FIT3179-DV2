@@ -1,71 +1,56 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "title": {
-    "text": "6 Highest Countries' Tourist Arrivals Between 2019–2024)",
-    "font": "Arial",
-    "fontSize": 16,
-    "anchor": "middle"
-  },
-  "width": 800,
-  "height": 420,
-  "data": {
-    "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/FIT3179%20DV2%20Map.csv"
-  },
-  "transform": [
-    {
-      "filter": "datum.Rank_2024 <= 6"
-    },
-    {
-      "fold": [
-        "Rank_2019",
-        "Rank_2022",
-        "Rank_2023",
-        "Rank_2024"
-      ],
-      "as": ["Year", "Rank"]
-    },
-    {
-      "calculate": "replace(datum.Year, 'Rank_', '')",
-      "as": "YearClean"
-    },
-    {
-      "calculate": "toNumber(datum.YearClean)",
-      "as": "YearNum"
-    }
-  ],
-  "mark": {
-    "type": "line",
-    "point": true
-  },
-  "encoding": {
-    "x": {
-      "field": "YearNum",
-      "type": "ordinal",
-      "title": "Year"
-    },
-    "y": {
-      "field": "Rank",
-      "sort": "descending",
-      "title": "Rank (1 = Highest)",
-      "scale": {"reverse": true}
-    },
-    "color": {
-      "field": "Country",
-      "type": "nominal",
-      "legend": {"title": "Country"}
-    },
-    "tooltip": [
-      {"field": "Country", "type": "nominal"},
-      {"field": "Rank", "title": "Rank"},
-      {"field": "2019", "type": "quantitative", "title": "Arrivals 2019"},
-      {"field": "2022", "type": "quantitative", "title": "Arrivals 2022"},
-      {"field": "2023", "type": "quantitative", "title": "Arrivals 2023"},
-      {"field": "2024", "type": "quantitative", "title": "Arrivals 2024"}
-    ]
-  },
-  "config": {
-    "line": {"strokeWidth": 2},
-    "point": {"size": 50},
-    "axisY": {"reverse": true}
-  }
-}
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 800,
+            "height": 420,
+            "data": {
+                "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/FIT3179%20DV2%20Map.csv"
+            },
+            "transform": [
+                {"filter": "datum.Rank_2024 <= 6"},
+                {"fold": ["Rank_2019","Rank_2020", "Rank_2021", "Rank_2022", "Rank_2023", "Rank_2024"], "as": ["Year", "Rank"]},
+                {"calculate": "replace(datum.Year, 'Rank_', '')", "as": "YearClean"},
+                {"calculate": "toNumber(datum.YearClean)", "as": "YearNum"}
+            ],
+            "layer": [
+                {
+                    "mark": {"type": "line", "point": true, "strokeWidth": 3},
+                    "encoding": {
+                        "x": {"field": "YearNum", "type": "ordinal", "title": "Year"},
+                        "y": {
+                            "field": "Rank", 
+                            "type": "quantitative",
+                            "sort": "descending", 
+                            "title": "Rank (1 = Highest)", 
+                            "scale": {"reverse": true, "domain": [1, 6]}
+                        },
+                        "color": {
+                          "field": "Country",
+                          "type": "nominal",
+                          "legend": {"title": "Country"},
+                          "scale": {
+                            "domain": ["Brunei", "China", "India", "Indonesia", "Singapore", "Thailand"],
+                            "range": ["#94FFFA", "#E69F00", "#009E73", "#FFEA00", "#0072B2", "#AC65DB"]
+                          }
+                        },
+                        "tooltip": [
+                            {"field": "Country", "type": "nominal"},
+                            {"field": "YearNum", "type": "ordinal", "title": "Year"},
+                            {"field": "Rank", "title": "Rank"}
+                        ]
+                    }
+                },
+                {
+                   "data": {"values": [{"x": 2023.5, "y": 4.7, "text": " Brunei has had the consistency \\n to remain fifth through the years."}]},
+                   "mark": {"type": "text", "dx": 10, "dy": -10, "fontSize": 12, "fontWeight": "bold", "lineBreak": "\\n"},
+                   "encoding": {
+                     "x": {"field": "x", "type": "ordinal"},
+                     "y": {"field": "y", "type": "quantitative"},
+                     "text": {"field": "text"}
+                   }
+                 }
+            ],
+            "config": {
+                "line": {"strokeWidth": 3},
+                "point": {"size": 100, "filled": true}
+            }
+        }
