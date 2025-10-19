@@ -1,8 +1,8 @@
 {
 "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 "vconcat": [{
-    "width": 1100,
-    "height": 750,
+    "width": 1150,
+    "height": 600,
     "projection": {"type": "equalEarth"},
     "layer": [
         {
