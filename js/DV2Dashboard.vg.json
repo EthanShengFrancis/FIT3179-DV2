@@ -34,7 +34,7 @@
                   "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/FIT3179%20DV2%20Map.csv"
                 },
                 "key": "Country",
-                "fields": ["2019", "2020", "2021", "2022", "2023", "2024"]
+                "fields": ["2019", "2020", "2021", "2022", "2023", "2024", "Rank_2019", "Rank_2020", "Rank_2021", "Rank_2022", "Rank_2023", "Rank_2024"]
               }
             },
             {
@@ -51,7 +51,12 @@
             {
               "calculate": "toString(Year_selection)",
               "as": "SelectedYear_string"
+            },
+            {
+              "calculate": "toNumber(datum['Rank_' + toString(Year_selection)])",
+              "as": "Rank"
             }
+
           ],
           "mark": {"type": "geoshape"},
           "encoding": {
@@ -69,7 +74,8 @@
               {"field": "properties.NAME", "type": "nominal", "title": "Country"},
               {"field": "Tourists", "type": "quantitative", "title": "Arrivals (selected year)", "format": ","},
               {"field": "ArrivalsPercentage", "type": "quantitative", "title": "Share (%)", "format": ".2f"},
-              {"field": "SelectedYear_string", "type": "nominal", "title": "Year"}
+              {"field": "SelectedYear_string", "type": "nominal", "title": "Year"},
+              {"field": "Rank", "type": "quantitative", "title": "Rank (selected year)"}
             ]
           }
         },
