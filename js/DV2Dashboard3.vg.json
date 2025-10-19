@@ -5,7 +5,7 @@
   },
   "transform": [
       {"calculate": "-toNumber(datum['Domestic 2024'])", "as": "DomesticNeg"},
-      {"filter": "datum['Country/Region'] != 'PENINSULAR MALAYSIA'"},
+      {"filter": "datum['States'] != 'PENINSULAR MALAYSIA'"},
       {"fold": ["DomesticNeg", "Foreigner 2024"], "as": ["Category", "Value"]},
       {"calculate": "datum.Category == 'DomesticNeg' ? 'Domestic Tourists' : 'Foreigner Tourists'", "as": "TouristType"}
   ],
@@ -13,7 +13,7 @@
   "height": 650,
   "encoding": {
       "y": {
-          "field": "Country/Region",
+          "field": "States",
           "type": "nominal",
           "sort": {"field": "Foreigner 2024", "order": "descending"},
           "axis": {"title": "State", "offset": 5, "labelLimit": 120}
