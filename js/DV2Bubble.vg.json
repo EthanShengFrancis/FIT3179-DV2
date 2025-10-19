@@ -1,0 +1,71 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 600,
+    "height": 400,
+    "data": {
+        "url": "https://raw.githubusercontent.com/EthanShengFrancis/FIT3179-DV2/main/data/WeeklyFlight.csv"
+    },
+    "params": [
+        {
+            "name": "Flight_Year",
+            "value": 2024,
+            "bind": {
+                "input": "select",
+                "options": [2022, 2023, 2024],
+                "labels": ["2022", "2023", "2024"],
+                "name": "Select Year: "
+            }
+        }
+    ],
+    "transform": [
+        {
+            "calculate": "Flight_Year == 2024 ? datum['Flight 2024'] : (Flight_Year == 2023 ? datum['Flight 2023'] : datum['Flight 2022'])",
+            "as": "FlightCount"
+        },
+        {
+            "calculate": "Flight_Year == 2024 ? datum['Seat 2024'] : (Flight_Year == 2023 ? datum['Seat 2023'] : datum['Seat 2022'])",
+            "as": "SeatCount"
+        },
+        {
+            "calculate": "toNumber(datum['SeatCount']) / toNumber(datum['FlightCount'])",
+            "as": "SeatPerFlight"
+        }
+    ],
+    "mark": {
+        "type": "circle",
+        "opacity": 0.8,
+        "stroke": "black",
+        "strokeWidth": 1
+    },
+    "encoding": {
+        "x": {
+            "field": "FlightCount",
+            "type": "quantitative",
+            "axis": {"title": "Number of Flights"},
+            "scale": {"domain": [0, 1800]}
+        },
+        "y": {
+            "field": "SeatCount",
+            "type": "quantitative",
+            "axis": {"title": "Number of Seats"},
+            "scale": {"domain": [0, 320000]}
+        },
+        "size": {
+            "field": "SeatPerFlight",
+            "type": "quantitative",
+            "title": "Seats per Flight",
+            "scale": {"domain": [0, 250]}
+        },
+        "color": {
+            "field": "Region",
+            "type": "nominal",
+            "legend": {"title": "Region"}
+        },
+        "tooltip": [
+            {"field": "Region", "type": "nominal"},
+            {"field": "FlightCount", "type": "quantitative", "title": "Flights", "format": ","},
+            {"field": "SeatCount", "type": "quantitative", "title": "Seats", "format": ","},
+            {"field": "SeatPerFlight", "type": "quantitative", "format": ".1f", "title": "Seats/Flight"}
+        ]
+    }
+}
